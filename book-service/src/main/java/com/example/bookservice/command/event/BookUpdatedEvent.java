@@ -1,17 +1,11 @@
-package com.example.bookservice.command.data;
+package com.example.bookservice.command.event;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "books")
-public class Book {
-    @Id
+public class BookUpdatedEvent {
     private String id;
     private String name;
     private String author;

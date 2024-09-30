@@ -1,6 +1,7 @@
 package com.example.bookservice.command.controller;
 
 import com.example.bookservice.command.command.CreateBookCommand;
+import com.example.bookservice.command.command.DeleteBookCommand;
 import com.example.bookservice.command.command.UpdateBookCommand;
 import com.example.bookservice.command.model.BookRequestModel;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +29,20 @@ public class BookController {
         return commandGateway.sendAndWait(createBookCommand);
     }
 
-    @PutMapping("/{id}")
-    public String updateBook(@PathVariable String id, @RequestBody BookRequestModel model) {
+    @PutMapping("/{bookId}")
+    public String updateBook(@RequestBody BookRequestModel model, @PathVariable String bookId) {
         UpdateBookCommand createBookCommand = new UpdateBookCommand(
-                id,
+                bookId,
                 model.getName(),
                 model.getAuthor(),
-                true
+                model.getIsReady()
         );
         return commandGateway.sendAndWait(createBookCommand);
+    }
+
+    @DeleteMapping("/{bookId}")
+    public String deleteBook(@PathVariable String bookId) {
+        DeleteBookCommand command = new DeleteBookCommand(bookId);
+        return commandGateway.sendAndWait(command);
     }
 }
