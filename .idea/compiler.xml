@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="book-service" />
         <module name="discovery-server" />
+        <module name="common-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="book-service" options="-parameters" />
+      <module name="common-service" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
     </option>
   </component>
