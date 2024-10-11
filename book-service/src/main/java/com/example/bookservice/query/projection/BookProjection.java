@@ -22,13 +22,6 @@ public class BookProjection {
     @QueryHandler
     public List<BookResponseModel> handle(GetAllBookQuery query) {
         List<Book> books = bookRepository.findAll();
-//        List<BookResponseModel> bookResponseModels = new ArrayList<>();
-//        books.forEach(book -> {
-//            BookResponseModel bookResponseModel = new BookResponseModel();
-//            BeanUtils.copyProperties(book, bookResponseModel);
-//            bookResponseModels.add(bookResponseModel);
-//        });
-
         List<BookResponseModel> result =  books.stream().map(book -> {
             BookResponseModel bookResponseModel = new BookResponseModel();
             BeanUtils.copyProperties(book, bookResponseModel);
@@ -39,11 +32,10 @@ public class BookProjection {
     }
 
     @QueryHandler
-    public BookResponseModel handle(GetBookDetailQuery query) {
+    public BookResponseModel handle(GetBookDetailQuery query) throws Exception {
         BookResponseModel bookResponseModel = new BookResponseModel();
-        bookRepository.findById(query.getId()).ifPresent(book -> {
-            BeanUtils.copyProperties(book, bookResponseModel);
-        });
+        Book book = bookRepository.findById(query.getId()).orElseThrow(() -> new Exception("Book not found id: " + query.getId()));
+        BeanUtils.copyProperties(book, bookResponseModel);
         return bookResponseModel;
     }
 
