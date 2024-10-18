@@ -31,7 +31,7 @@ public class BookController {
     }
 
     @PutMapping("/{bookId}")
-    public String updateBook(@RequestBody BookRequestModel model, @PathVariable String bookId) {
+    public String updateBook(@Valid @RequestBody BookRequestModel model, @PathVariable String bookId) {
         UpdateBookCommand createBookCommand = new UpdateBookCommand(
                 bookId,
                 model.getName(),

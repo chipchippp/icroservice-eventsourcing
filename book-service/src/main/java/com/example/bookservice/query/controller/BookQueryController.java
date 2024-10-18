@@ -28,14 +28,4 @@ public class BookQueryController {
         return queryGateway.query(query, ResponseTypes.instanceOf(BookResponseModel.class)).join();
     }
 
-//    @GetMapping
-//    public List<BookResponseModel> getAllBooks() {
-//        GetAllBookQuery query = new GetAllBookQuery();
-//        CompletableFuture<List<BookResponseModel>> bookFuture =
-//                queryGateway.query(query, ResponseTypes.multipleInstancesOf(BookResponseModel.class));
-//        bookFuture.thenAccept(books-> {
-//            System.out.println("books = " + books);
-//        });
-//        return bookFuture.join();
-//    }
 }
