@@ -4,6 +4,7 @@ import com.example.employeeservice.command.data.Employee;
 import com.example.employeeservice.command.data.EmployeeRepository;
 import com.example.employeeservice.query.model.EmployeeResponseModel;
 import com.example.employeeservice.query.queries.GetAllEmployeeQuery;
+import com.example.employeeservice.query.queries.GetByIsDisciplined;
 import com.example.employeeservice.query.queries.GetEmployeeDetailQuery;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;
@@ -26,6 +27,16 @@ public class EmployeeProjection {
             return employeeResponseModel;
         }).toList();
         return result;
+    }
+
+    @QueryHandler
+    public List<EmployeeResponseModel> handle(GetByIsDisciplined query) {
+        List<Employee> employees = employeeRepository.findAllByIsDisciplined(query.getIsDisciplined());
+        return employees.stream().map(employee -> {
+            EmployeeResponseModel employeeResponseModel = new EmployeeResponseModel();
+            BeanUtils.copyProperties(employee, employeeResponseModel);
+            return employeeResponseModel;
+        }).toList();
     }
 
     @QueryHandler

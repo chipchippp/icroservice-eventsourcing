@@ -2,6 +2,7 @@ package com.example.employeeservice.query.controller;
 
 import com.example.employeeservice.query.model.EmployeeResponseModel;
 import com.example.employeeservice.query.queries.GetAllEmployeeQuery;
+import com.example.employeeservice.query.queries.GetByIsDisciplined;
 import com.example.employeeservice.query.queries.GetEmployeeDetailQuery;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -20,6 +21,12 @@ public class EmployeeQueryController {
     public List<EmployeeResponseModel> getAllEmployees() {
         GetAllEmployeeQuery query = new GetAllEmployeeQuery();
         return queryGateway.query(query, ResponseTypes.multipleInstancesOf(EmployeeResponseModel.class)).join();
+    }
+
+    @GetMapping("/disciplined")
+    public List<EmployeeResponseModel> getByIsDisciplinedEmployees(@RequestParam(required = false, defaultValue = "false") Boolean isDisciplined) {
+        return queryGateway.query(new GetByIsDisciplined(isDisciplined),
+                ResponseTypes.multipleInstancesOf(EmployeeResponseModel.class)).join();
     }
 
     @GetMapping("/{employeeId}")
