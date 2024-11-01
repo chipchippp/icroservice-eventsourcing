@@ -1,0 +1,53 @@
+#server:
+#  port: 8080
+#
+## Config log level
+#logging:
+#  level:
+#    root: warn
+#
+#spring:
+#  application:
+#    name: gateway-service
+#  redis:
+#    port: 6379
+#    host: localhost
+#  main:
+#    banner-mode: off
+#  cloud:
+#    gateway:
+#      discover:
+#        locator:
+#          enabled: true
+#      routes:
+#        - id: employee-service
+#          uri: lb://employee-service
+#          predicates:
+#            - Path=/api/v1/employees/**
+#          filters:
+#            - name: RequestRateLimiter
+#              args:
+#                redis-rate-limiter.replenishRate: 10
+#                redis-rate-limiter.burstCapacity: 20
+#                redis-rate-limiter.requestedTokens: 1
+#            - KeyAuthFilter
+#        - id: book-service
+#          uri: lb://book-service
+#          predicates:
+#            - Path=/api/v1/books/**
+#          filters:
+#            - name: RequestRateLimiter
+#              args:
+#                redis-rate-limiter.replenishRate: 10
+#                redis-rate-limiter.burstCapacity: 20
+#                redis-rate-limiter.requestedTokens: 1
+#            - KeyAuthFilter
+#
+#eureka:
+#  instance:
+#    hostname: discovery-server
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#    register-with-eureka: true
+#    fetch-registry: true
