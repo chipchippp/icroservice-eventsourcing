@@ -1,5 +1,6 @@
 package com.example.employeeservice.query.controller;
 
+import com.example.commonservice.service.KafkaService;
 import com.example.employeeservice.query.model.EmployeeResponseModel;
 import com.example.employeeservice.query.queries.GetAllEmployeeQuery;
 import com.example.employeeservice.query.queries.GetByIsDisciplined;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequestMapping("/api/v1/employees")
 public class EmployeeQueryController {
     private final QueryGateway queryGateway;
+    private final KafkaService kafkaService;
 
     @Operation(
             summary = "Get all employees",
@@ -59,5 +61,10 @@ public class EmployeeQueryController {
     public EmployeeResponseModel getEmployeeById(@PathVariable String employeeId) {
         GetEmployeeDetailQuery query = new GetEmployeeDetailQuery(employeeId);
         return queryGateway.query(query, ResponseTypes.instanceOf(EmployeeResponseModel.class)).join();
+    }
+
+    @PostMapping("/sendMessage")
+    public void sendMessage(@RequestBody String message) {
+        kafkaService.sendMessage("test", message);
     }
 }

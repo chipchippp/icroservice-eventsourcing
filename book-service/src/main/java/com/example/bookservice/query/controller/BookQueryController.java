@@ -3,6 +3,7 @@ package com.example.bookservice.query.controller;
 import com.example.bookservice.query.model.BookResponseModel;
 import com.example.bookservice.query.queries.GetAllBookQuery;
 import com.example.bookservice.query.queries.GetBookDetailQuery;
+import com.example.commonservice.service.KafkaService;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/books")
 public class BookQueryController {
     private final QueryGateway queryGateway;
+    private final KafkaService kafkaService;
 
     @GetMapping
     public List<BookResponseModel> getAllBooks() {
@@ -28,4 +30,8 @@ public class BookQueryController {
         return queryGateway.query(query, ResponseTypes.instanceOf(BookResponseModel.class)).join();
     }
 
+    @PostMapping("/sendMessage")
+    public void sendMessage(@RequestBody String message) {
+        kafkaService.sendMessage("test", message);
+    }
 }
