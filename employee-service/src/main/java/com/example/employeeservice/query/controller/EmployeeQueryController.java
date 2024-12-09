@@ -1,5 +1,7 @@
 package com.example.employeeservice.query.controller;
 
+import com.example.commonservice.model.EmployeeResponseCommonModel;
+import com.example.commonservice.queries.GetDetailEmployeeQuery;
 import com.example.commonservice.service.KafkaService;
 import com.example.employeeservice.query.model.EmployeeResponseModel;
 import com.example.employeeservice.query.queries.GetAllEmployeeQuery;
@@ -58,13 +60,8 @@ public class EmployeeQueryController {
     @Hidden
     @Operation(summary = "Get employee by id")
     @GetMapping("/{employeeId}")
-    public EmployeeResponseModel getEmployeeById(@PathVariable String employeeId) {
-        GetEmployeeDetailQuery query = new GetEmployeeDetailQuery(employeeId);
-        return queryGateway.query(query, ResponseTypes.instanceOf(EmployeeResponseModel.class)).join();
-    }
+    public EmployeeResponseCommonModel getDetailEmployee(@PathVariable String employeeId) {
+        return queryGateway.query(new GetDetailEmployeeQuery(employeeId),ResponseTypes.instanceOf(EmployeeResponseCommonModel.class)).join();
 
-    @PostMapping("/sendMessage")
-    public void sendMessage(@RequestBody String message) {
-        kafkaService.sendMessage("test", message);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.bookservice.query.queries;
+package com.example.commonservice.queries;
 
 import lombok.*;
 

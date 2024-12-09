@@ -1,5 +1,7 @@
 package com.example.employeeservice.query.projection;
 
+import com.example.commonservice.model.EmployeeResponseCommonModel;
+import com.example.commonservice.queries.GetDetailEmployeeQuery;
 import com.example.employeeservice.command.data.Employee;
 import com.example.employeeservice.command.data.EmployeeRepository;
 import com.example.employeeservice.query.model.EmployeeResponseModel;
@@ -40,8 +42,8 @@ public class EmployeeProjection {
     }
 
     @QueryHandler
-    public EmployeeResponseModel handle(GetEmployeeDetailQuery query) throws Exception {
-        EmployeeResponseModel model = new EmployeeResponseModel();
+    public EmployeeResponseCommonModel handle(GetDetailEmployeeQuery query) throws Exception {
+        EmployeeResponseCommonModel model = new EmployeeResponseCommonModel();
         Employee employee = employeeRepository.findById(query.getId()).orElseThrow(() -> new Exception("Employee not found id: " + query.getId()));
         BeanUtils.copyProperties(employee, model);
         return model;

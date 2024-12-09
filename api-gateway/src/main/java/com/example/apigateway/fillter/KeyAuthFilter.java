@@ -12,7 +12,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Component
-public class KeyAuthFilter extends AbstractGatewayFilterFactory<KeyAuthFilter.Config> {
+public class
+KeyAuthFilter extends AbstractGatewayFilterFactory<KeyAuthFilter.Config> {
 
     @Value("${apiKey}")
     private String apiKey;

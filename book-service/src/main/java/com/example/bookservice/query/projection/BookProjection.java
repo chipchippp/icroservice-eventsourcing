@@ -4,15 +4,14 @@ import com.example.bookservice.command.data.Book;
 import com.example.bookservice.command.data.BookRepository;
 import com.example.bookservice.query.model.BookResponseModel;
 import com.example.bookservice.query.queries.GetAllBookQuery;
-import com.example.bookservice.query.queries.GetBookDetailQuery;
+import com.example.commonservice.model.BookResponseCommonModel;
+import com.example.commonservice.queries.GetBookDetailQuery;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -32,8 +31,8 @@ public class BookProjection {
     }
 
     @QueryHandler
-    public BookResponseModel handle(GetBookDetailQuery query) throws Exception {
-        BookResponseModel bookResponseModel = new BookResponseModel();
+    public BookResponseCommonModel handle(GetBookDetailQuery query) throws Exception {
+        BookResponseCommonModel bookResponseModel = new BookResponseCommonModel();
         Book book = bookRepository.findById(query.getId()).orElseThrow(() -> new Exception("Book not found id: " + query.getId()));
         BeanUtils.copyProperties(book, bookResponseModel);
         return bookResponseModel;

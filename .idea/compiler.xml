@@ -12,6 +12,7 @@
         <module name="book-service" />
         <module name="borrowing-service" />
         <module name="api-gateway" />
+        <module name="user-service" />
         <module name="notification-service" />
         <module name="employee-service" />
       </profile>
@@ -26,6 +27,7 @@
       <module name="discovery-server" options="-parameters" />
       <module name="employee-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
+      <module name="user-service" options="-parameters" />
     </option>
   </component>
 </project>

@@ -2,7 +2,8 @@ package com.example.bookservice.query.controller;
 
 import com.example.bookservice.query.model.BookResponseModel;
 import com.example.bookservice.query.queries.GetAllBookQuery;
-import com.example.bookservice.query.queries.GetBookDetailQuery;
+import com.example.commonservice.model.BookResponseCommonModel;
+import com.example.commonservice.queries.GetBookDetailQuery;
 import com.example.commonservice.service.KafkaService;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -25,9 +26,9 @@ public class BookQueryController {
     }
 
     @GetMapping("/{bookId}")
-    public BookResponseModel getBookById(@PathVariable String bookId) {
+    public BookResponseCommonModel getBookById(@PathVariable String bookId) {
         GetBookDetailQuery query = new GetBookDetailQuery(bookId);
-        return queryGateway.query(query, ResponseTypes.instanceOf(BookResponseModel.class)).join();
+        return queryGateway.query(query, ResponseTypes.instanceOf(BookResponseCommonModel.class)).join();
     }
 
     @PostMapping("/sendMessage")

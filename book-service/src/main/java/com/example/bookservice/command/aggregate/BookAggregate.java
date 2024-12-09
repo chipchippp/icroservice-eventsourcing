@@ -6,6 +6,10 @@ import com.example.bookservice.command.command.UpdateBookCommand;
 import com.example.bookservice.command.event.BookCreatedEvent;
 import com.example.bookservice.command.event.BookDeletedEvent;
 import com.example.bookservice.command.event.BookUpdatedEvent;
+import com.example.commonservice.command.RollBackStatusBookCommand;
+import com.example.commonservice.command.UpdateStatusBookCommand;
+import com.example.commonservice.event.BookRollBackStatusEvent;
+import com.example.commonservice.event.BookUpdateStatusEvent;
 import lombok.*;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -18,7 +22,6 @@ import org.springframework.beans.BeanUtils;
 @Aggregate
 public class BookAggregate {
 
-//    liên kết id từ createBookCommand với id của book
     @AggregateIdentifier
     private String id;
     private String name;
@@ -45,6 +48,32 @@ public class BookAggregate {
         BookDeletedEvent bookDeletedEvent = new BookDeletedEvent();
         BeanUtils.copyProperties(command, bookDeletedEvent);
         AggregateLifecycle.apply(bookDeletedEvent);
+    }
+
+    @CommandHandler
+    public void handle(UpdateStatusBookCommand command) {
+        BookUpdateStatusEvent event = new BookUpdateStatusEvent();
+        BeanUtils.copyProperties(command, event);
+        AggregateLifecycle.apply(event);
+    }
+
+    @CommandHandler
+    public void handler(RollBackStatusBookCommand command){
+        BookRollBackStatusEvent event = new BookRollBackStatusEvent();
+        BeanUtils.copyProperties(command,event);
+        AggregateLifecycle.apply(event);
+    }
+
+    @EventSourcingHandler
+    public void on(BookRollBackStatusEvent event){
+        this.id = event.getBookId();
+        this.isReady = event.getIsReady();
+    }
+
+    @EventSourcingHandler
+    public void on(BookUpdateStatusEvent event) {
+        this.id = event.getBookId();
+        this.isReady = event.getIsReady();
     }
 
     @EventSourcingHandler
