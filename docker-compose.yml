@@ -34,6 +34,26 @@ services:
           - "8224:8224"
       networks:
         - microservices-networks
+    api-gateway:
+      build:
+        context: .
+        dockerfile: api-gateway/Dockerfile
+      ports:
+        - "8880:8880"
+      networks:
+        - microservices-networks
+      depends_on:
+        - discovery-server
+        - redis
+    redis:
+      image: "redis:latest"
+      hostname: redis
+      restart: always
+      ports:
+        - "6379:6379"
+      networks:
+        - microservices-networks
+    
 networks:
     microservices-networks:
         driver: bridge
