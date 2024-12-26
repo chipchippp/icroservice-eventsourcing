@@ -9,6 +9,31 @@ services:
         - "8888:8761"
       networks:
         - microservices-networks
+    book-service:
+      build:
+        context: .
+        dockerfile: book-service/Dockerfile
+      ports:
+        - "8881:8881"
+      networks:
+        - microservices-networks
+      depends_on:
+        - discovery-server
+        - axonserver
+      environment:
+        - "AXONIQ_AXONSERVER_SERVERS=axonserver:8024"
+    axonserver:
+      image: "axoniq/axonserver:latest"
+      hostname: axonserver
+      container_name: axonserver
+      environment:
+          - "AXONIQ_AXONSERVER_STANDALONE=TRUE"
+      ports:
+          - "8024:8024"
+          - "8124:8124"
+          - "8224:8224"
+      networks:
+        - microservices-networks
 networks:
     microservices-networks:
         driver: bridge

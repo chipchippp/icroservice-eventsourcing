@@ -1,7 +1,7 @@
 # Stage 1: use maven for building
 FROM maven:3.8.5-openjdk-17-slim as build
 WORKDIR /app
-COPY discovery-server ./discovery-server
+COPY ./discovery-server ./discovery-server
 WORKDIR /app/discovery-server
 RUN mvn clean package -DskipTests
 
